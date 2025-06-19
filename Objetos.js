@@ -3,12 +3,12 @@
 //Para tornar o ID de cada produto único, vou criar um contador, que a cada novo produto criado é somado em 1
 //Fazendo com que dois produtos não tenham o mesmo valor
 let idAtual = 1;
-class produto {
+class Produto {
     constructor(nome, quantidade, preco){
         this.id = idAtual;
         this.nome = nome;
         this.quantidade = quantidade;
-        this.preco = preco;
+        this.preco = parseFloat(preco);
         idAtual++;
     }
     adicionarAoEstoque(quantidade){
@@ -18,11 +18,13 @@ class produto {
         //Remover do estoque vou considerar que estarão comprando, e se estiverem e a quantidade que eu remover for maior
         //Do que a que existe atualmente, vou retornar estoque insuficiente
         if (quantidade > this.quantidade){
-            console.log("Estoque insuficiente!")
-            console.log(`${this.quantidade} peças no estoque atualmente.`)
+            console.log("Estoque insuficiente!");
+            console.log(`${this.quantidade} peças no estoque atualmente.`);
+            return false;
         } else{
         this.quantidade -= quantidade;
-        console.log(`${this.quantidade} peças restantes.`)
+        console.log(`${this.quantidade} peças restantes.`);
+        return true;
         }
     }
 };
@@ -54,6 +56,13 @@ class Estoque {
     valorTotalEstoque(){
         //Agora eu vou verificar o valor total do estoque, ou seja, eu tenho que percorrer o array
         //This.produtos inteiro e ir somando a quantidade * preço de cada produto registrado
-        return this.produtos.reduce()
+        return console.log(this.produtos.reduce((somaTotal, p) => somaTotal + (p.quantidade * p.preco), 0))
     }
+    listarEstoque(){
+        this.produtos.forEach(p => 
+            console.log(`ID : ${p.id} | Nome : ${p.nome} | Preço : R$${p.preco.toFixed(2)} | Quantidade : ${p.quantidade}`)
+        )
+    }
+//Agora vou exportar tudo, deixando possível eu importar as classes no Estoque.js
 };
+export { Produto, Estoque };
